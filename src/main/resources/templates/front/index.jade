@@ -1,0 +1,33 @@
+extends ./main-layout
+
+include ./includes/mixins-main
+
+
+block content
+  - var params = '?'+pagerParamsHelper.build()
+
+  for article in articles
+    +articleHead(article)
+  else
+    span No articles
+
+  .pager
+    span page: #{articles.number +1} / #{articles.totalPages}
+    span articles per page: #{articles['size'] +' '}
+    span total articles: #{articles.totalElements}
+
+  .pager
+    +pagerBox(articles)
+
+  .pager
+    +pageSizeBox(articles, ' articles per page')
+
+    +sortBox(articles)
+
+block sidebarLeft
+  h2 Left sidebar
+  +tagsBox(tags)
+
+block sidebarRight
+  h2 Right sidebar
+  +authorsBox(authors)

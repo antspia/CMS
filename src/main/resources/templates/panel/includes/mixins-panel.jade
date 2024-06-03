@@ -1,0 +1,68 @@
+mixin pageSizeBox(pageable, itemsPerPageText)
+
+  - var offset = pageable.getPageable().getOffset()
+
+  .btn-group.mr-2
+    button(class="btn btn-secondary dropdown-toggle" type="button" id="dropdownPageSizeMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")= pageable['size'] + itemsPerPageText
+    .dropdown-menu(aria-labelledby="dropdownPageSizeMenuButton")
+       each pageSize in pageSizeHelper.getPageSizeList();
+         if pageSize == pageable['size']
+           span.dropdown-item.disabled= pageSize + itemsPerPageText
+         else
+           - var newPage = offset/pageSize
+           a(href="?" +pagerParamsHelper.withPage(newPage).withSize(pageSize).build()).dropdown-item= pageSize + itemsPerPageText
+
+
+mixin sortBox(sort, url)
+
+  - url = url +'?';
+  - var sortName = sortModeHelper.findModeByParamString(pagerParamsHelper.getSortParamsString(sort)).name
+
+  .btn-group.mr-2
+    button(class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSortMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")= 'sort ' + sortName
+    .dropdown-menu(aria-labelledby="dropdownSortMenuButton")
+       each orderMode in sortModeHelper.getAllModes()
+         if sortName == orderMode.name
+           span.dropdown-item.disabled= orderMode.name
+         else
+           a(href=url +pagerParamsHelper.withSort(orderMode.paramString).build()).dropdown-item= orderMode.name
+
+
+mixin pagerBox(pageable)
+
+    if (!pageable.isFirst())
+      a(href='?' +pagerParamsHelper.withPage(0).build()).btn.btn-secondary &laquo;
+    else
+      span.btn.btn-secondary.disabled &laquo;
+
+    if (pageable.hasPrevious())
+      a(href='?' +pagerParamsHelper.withPage(pageable.number-1).build()).btn.btn-secondary &lsaquo;
+    else
+      span.btn.btn-secondary.disabled &lsaquo;
+
+    - var p=0
+    while p < pageable.totalPages
+      if (p==pageable.number)
+        span.btn.btn-secondary.active= p+1
+      else
+        a(href='?' +pagerParamsHelper.withPage(p).build()).btn.btn-secondary= p+1
+      - p++
+
+    if (pageable.hasNext())
+      a(href='?' +pagerParamsHelper.withPage(pageable.number+1).build()).btn.btn-secondary &rsaquo;
+    else
+      span.btn.btn-secondary.disabled &rsaquo;
+
+    if (!pageable.isLast())
+      a(href='?' +pagerParamsHelper.withPage(pageable.totalPages-1).build()).btn.btn-secondary &raquo;
+    else
+      span.btn.btn-secondary.disabled &raquo;
+
+mixin sortIndicator(sMode, mode)
+
+  if sMode == mode.id || sMode+'_DESC' == mode.id
+    if mode.isDesc()
+        i.fas.fa-sort-amount-down
+    else
+        i.fas.fa-sort-amount-up
+  block

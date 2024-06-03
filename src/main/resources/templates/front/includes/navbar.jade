@@ -1,0 +1,7 @@
+
+.navSpacer
+   nav#navbar.showMenu
+     i#menuBtn.fas.fa-bars
+
+     for item in sections
+       a(href="/section/"+item.id) #{item.name}

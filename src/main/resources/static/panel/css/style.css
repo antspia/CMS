@@ -1,0 +1,13 @@
+body {
+    background-color: ivory;
+
+}
+
+.hidden {
+    display: none;
+}
+
+#mainMenu .nav-link {
+  transition-property: all;
+  transition-duration: 0.4s;
+}

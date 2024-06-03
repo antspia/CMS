@@ -1,0 +1,14 @@
+extends ./main-layout
+
+include ./includes/mixins-main
+
+block sidebarLeft
+  h2 Left sidebar
+  +tagsBox(tags)
+
+block sidebarRight
+  h2 Right sidebar
+  +authorsBox(authors)
+
+block content
+  +articleContent(article)

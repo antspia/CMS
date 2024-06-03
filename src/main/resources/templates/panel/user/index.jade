@@ -1,0 +1,38 @@
+extends ../panel-layout
+
+include ../includes/mixins-panel.jade
+
+block prepend content-header
+  h1= title
+
+block content
+
+  - var sortMode = sortModeHelper.findModeByParamString(pagerParamsHelper.getSortParamsString(users.getPageable()))
+
+  table.table.table-striped.table-hover
+    tr
+      th #
+      th: +sortIndicator('ID', sortMode) id
+      th: +sortIndicator('USERNAME', sortMode) username
+      th: +sortIndicator('EMAIL', sortMode) email
+      th: +sortIndicator('STATUS', sortMode) status
+      th roles
+      th: i.fas.fa-edit
+
+    for user, i in users
+      tr(id="id"+user.id)
+        td= i+1
+        td= user.id
+        td= user.username
+        td= user.email
+        td= user.status
+        td
+          for role in user.roles
+            strong  #{role.label}
+        td: a(href="/panel/user/edit/"+user.id role="button" class="editButton"): i.far.fa-edit
+
+  .btn-toolbar
+    +pageSizeBox(users, ' users per page')
+    +sortBox(users.sort, '/panel/user')
+    .btn-group.mr-2
+      +pagerBox(users)

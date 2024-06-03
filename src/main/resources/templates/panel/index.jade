@@ -1,0 +1,16 @@
+extends ./panel-layout
+
+block prepend content-header
+  h1.display-4.py-4= title
+
+block content
+
+    div.jumbotron
+      h1.display-4 Add your content.
+      p.lead This is a simple CMS system.
+      hr.my-4
+      p It was developed with Spring Boot 2 and Hibernate. For build view uses a not too much popular template engine - Jade (PUG).
+      p.lead
+        a.btn.btn-primary.btn-lg(href="/" role="button") Go to content view.
+
+
